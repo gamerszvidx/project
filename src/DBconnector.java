@@ -12,39 +12,30 @@ public class DBconnector {
     static final String USER = "root";
     static final String PASS = "";
 
-
-    public static void main(String[] args) {
-
-        Connection conn = null;
-        Statement stmt = null;
-
+    static ResultSet rs;
+        static Connection conn = null;
+        static Statement stmt = null;
+    public static void ConnectToDB(){
         try {
             Class.forName(JDBC_DRIVER);
 
             System.out.println("Connect to database..");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            System.out.println("Create statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT Distinct UnitID FROM connections";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while(rs.next()) {
-                long UnitID = rs.getLong("UnitID");
-                System.out.println(UnitID);
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-
         }catch(SQLException se){
             se.printStackTrace();
         }catch(Exception e){
-            e.printStackTrace();
-        }
+            e.printStackTrace();}}
+    public static ResultSet RunQuery(String Query) throws SQLException {
+            System.out.println("Create statement...");
+            stmt = conn.createStatement();
+            String sql;
+            sql = Query;
+            rs = stmt.executeQuery(sql);
+        return rs;
+    }
+
+
+
 
     }
-    //hello
 
-}
